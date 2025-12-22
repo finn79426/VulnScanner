@@ -10,7 +10,7 @@ Designed as a proof-of-concept for managing high-throughput network I/O and comp
 
 - **Passive Reconnaissance**: Retrieves subdomains from `crt.sh` (Certificate Transparency logs) and `web.archive.org` (Wayback Machine).
 - **Async Port Discovery**: Powered by `tokio`, capable of scanning thousands of ports concurrently without thread starvation.
-- **Web Vulnerability Analysis**: Detects common web flaws.
+- **Web Vulnerability Analysis**: Detects common web flaws by resolving HTTP responses.
 
 ## Architecture 
 
