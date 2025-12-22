@@ -84,6 +84,8 @@ impl SubdomainModule for WebArchive {
 
         subdomains.sort_unstable();
 
+        log::info!("{}: Found {} subdomains", self.name(), subdomains.len());
+
         Ok(subdomains)
     }
 }
