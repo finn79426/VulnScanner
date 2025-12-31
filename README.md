@@ -1,12 +1,12 @@
-# Vulnerability Scanner (Rust)
+# Vulnscan 🦀
 
-A high-performance, asynchronous CLI security tool architected for efficient web vulnerability discovery.
-
-The tool implements a multi-stage security pipeline: starting with passive reconnaissance via Certificate Transparency (CT) logs, followed by high-speed concurrent port scanning, and concluding with a specialized HTTP module to identify common web misconfigurations and vulnerabilities.
+A high-performance, asynchronous CLI tool architected for efficient web vulnerability discovery.
 
 Designed as a proof-of-concept for managing high-throughput network I/O and complex futures orchestration in Rust.
 
 ## Features
+
+This tool implements a multi-stage security pipeline: starting with passive reconnaissance via Certificate Transparency (CT) logs, followed by high-speed concurrent port scanning, and concluding with a specialized HTTP module to identify common web misconfigurations and vulnerabilities.
 
 - **Passive Reconnaissance**: Retrieves subdomains from `crt.sh` (Certificate Transparency logs) and `web.archive.org` (Wayback Machine).
 - **Async Port Discovery**: Powered by `tokio`, capable of scanning thousands of ports concurrently without thread starvation.
@@ -19,10 +19,43 @@ Designed as a proof-of-concept for managing high-throughput network I/O and comp
 ## Usage
 
 ```shell
-cargo run --release -- github.com
+cargo run --release -- help
 ```
 
-## Example Output
+```text
+Usage: vulnscan <COMMAND>
+
+Commands:
+  modules  
+  scan     
+  help     Print this message or the help of the given subcommand(s)
+
+Options:
+  -h, --help  Print help
+```
+
+### List Available Modules
+
+```shell
+cargo run --release -- modules
+```
+
+```text
+Subdomain Modules
+        subdomain/crtsh: Use crt.sh to enumerate subdomains
+        subdomain/webarchive: Use web.archive.org to enumerate subdomains
+HTTP Modules
+        http/directory_listing: Check if directory listing is publicly accessible
+        http/dotenv_disclosure: Check if .env is publicly accessible
+        http/git_config_leakage: Check if .git/config is publicly accessible
+        http/git_head_leakage: Check if .git/head is publicly accessible
+```
+
+### Start Scanning
+
+```shell
+cargo run --release -- scan github.com
+```
 
 ```text
 [2025-12-22T18:16:31Z INFO  vulnscan::action] Starting scan for github.com
@@ -60,6 +93,5 @@ test modules::http::git_head_leakage::tests::test_scan_should_return_some_when_p
 test modules::http::dotenv_disclosure::tests::test_scan_should_return_none_when_pattern_unmatched ... ok
 test modules::http::git_config_leakage::tests::test_scan_should_return_some_when_pattern_matched ... ok
 test modules::http::directory_listing::tests::test_scan_should_return_some_when_pattern_matched ... ok
-
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s
 ```
